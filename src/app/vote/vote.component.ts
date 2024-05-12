@@ -25,18 +25,27 @@ interface Contestant {
   templateUrl: './vote.component.html',
   styleUrls: ['./vote.component.css']
 })
-export class VoteComponent {
+export class VoteComponent implements OnInit {
   
-  title = 'Voting Application';
-  VoterName = "";
-  CandidateName = "";
+  title:string;
+  VoterName: string;
+  CandidateName: string;
+  SubmitVoteForm: FormGroup;
+
   constructor(){
-    
-  }
-  SubmitVoteForm = new FormGroup({
+    this.title = 'Voting Application';
+    this.VoterName = "";
+    this.CandidateName = "";
+    this.SubmitVoteForm = new FormGroup({
       voterControl: new FormControl<Voter | null>(null, Validators.required),
       contestantControl: new FormControl<Contestant | null>(null, Validators.required)
       });
+  }
+
+  ngOnInit(): void{
+    
+  }
+  
   addingVoter = false;
  addingContestant = false;
  addContestant = ()=>{
