@@ -1,0 +1,71 @@
+<h1>{{title}}</h1>
+<hr>
+<div class="row">
+    <div class="column">
+<table>
+    <tr>
+        <div *ngIf="addingVoter == false; then thenVoterAddBlock else elseVoterDisplayBlock"></div>
+         
+<ng-template #thenVoterAddBlock>
+    <th colspan="2" style="text-align:center;">Voters
+    <button mat-icon-button color="primary"  (click)="addVoter()" style="float:right;"><mat-icon>add</mat-icon></button>
+</th>
+</ng-template>
+<ng-template #elseVoterDisplayBlock><th colspan="2" style="text-align:center;">
+    <mat-form-field>
+        <mat-label>Voter Name</mat-label>
+        <input matInput type="text" class="form-control" id="VoterName"
+    required
+    [(ngModel)]="VoterName"
+     placeholder="voter Name"/></mat-form-field>
+     <button  mat-icon-button color="primary" *ngIf="VoterName.length > 0" (click)="addVoterToList()"><mat-icon>check</mat-icon></button>
+     <button  mat-icon-button color="primary" (click)="cancelVoterAddition()" style="float:right;"><mat-icon>cancel</mat-icon></button></th></ng-template>
+</tr>
+    <tr><td>Name</td><td>Has Voted</td></tr>
+    <tr *ngFor="let vote of voters"><td>{{vote.Name}}</td><td>{{vote.Voted.length > 0}}</td></tr>
+</table>
+</div>
+<div class="column">
+<table>
+    <div *ngIf="addingContestant == false then thenBlock else elseBlock"></div>
+    <tr> 
+<ng-template #thenBlock><th colspan="2" style="text-align:center;">Candidates
+    <button mat-icon-button color="primary" (click)="addContestant()" style="float:right;"><mat-icon>add</mat-icon></button>
+</ng-template>
+<ng-template #elseBlock><th colspan="2" style="text-align:center;">
+    <mat-form-field>
+        <mat-label>Candidate Name</mat-label>
+    <input matInput id="CandidateName"
+    required
+    [(ngModel)]="CandidateName" 
+    placeholder="Candidate Name"/></mat-form-field>
+    <button mat-icon-button color="primary" *ngIf="CandidateName.length > 0" (click)="addContestantToList()"><mat-icon>check</mat-icon></button>
+    <button mat-icon-button color="primary" (click)="cancelContestantAdding()" style="float:right;"><mat-icon>cancel</mat-icon></button></th></ng-template>
+</tr>
+    <tr><td>Name</td><td>Votes</td></tr>
+    <tr *ngFor="let contestant of contestants"><td>{{contestant.Name}}</td><td>{{contestant.Votes}}</td></tr>
+</table>
+</div>
+</div>
+
+<mat-divider></mat-divider>
+<form [formGroup]="SubmitVoteForm" (ngSubmit)="submitVote()">
+<mat-form-field style="margin:15px;">
+    <mat-label>I am</mat-label>
+    <mat-select id="voterControl"
+    class="form-control" formControlName="voterControl" required>
+        <mat-option *ngFor="let voter of voters; track voter" [value]="voter">{{voter.Name}}</mat-option>
+    </mat-select>
+      <mat-error *ngIf="SubmitVoteForm.get('voterControl')?.errors?.['required']">Please choose a voter</mat-error>
+  </mat-form-field>
+  <mat-form-field style="margin:15px;">
+    <mat-label>I vote for</mat-label>
+    <mat-select id="contestantControl"
+    class="form-control" formControlName="contestantControl" required>
+        <mat-option *ngFor="let contestant of contestants; track contestant" [value]="contestant">{{contestant.Name}}</mat-option>
+    </mat-select>
+      <mat-error *ngIf="SubmitVoteForm.get('contestantControl')?.errors?.['required']">Please choose a contestant</mat-error>
+  </mat-form-field>
+  
+<button mat-raised-button type="submit" [disabled]="!SubmitVoteForm.valid" color="primary" >Submit!</button>
+</form>
