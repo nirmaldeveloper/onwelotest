@@ -22,7 +22,7 @@
      <button  mat-icon-button color="primary" (click)="cancelVoterAddition()" style="float:right;"><mat-icon>cancel</mat-icon></button></th></ng-template>
 </tr>
     <tr><td>Name</td><td>Has Voted</td></tr>
-    <tr *ngFor="let vote of voters"><td>{{vote.Name}}</td><td>{{vote.Voted.length > 0}}</td></tr>
+    <tr *ngFor="let vote of voters"><td>{{vote.Name}}</td><td><div *ngIf="vote.Voted.length > 0; then thenVoterCheckBlock else elseNotVotedBlock"></div><ng-template #thenVoterCheckBlock><mat-icon>check</mat-icon></ng-template><ng-template #elseNotVotedBlock><mat-icon>cancel</mat-icon></ng-template></td></tr>
 </table>
 </div>
 <div class="column">
