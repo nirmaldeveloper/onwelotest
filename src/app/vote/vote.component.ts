@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {FormGroup,FormControl, Validators} from '@angular/forms';
 
 interface ContestantVoted {
@@ -25,7 +25,7 @@ interface Contestant {
   templateUrl: './vote.component.html',
   styleUrls: ['./vote.component.css']
 })
-export class VoteComponent implements OnInit {
+export class VoteComponent implements OnInit, OnDestroy {
   
   title:string;
   VoterName: string;
@@ -33,6 +33,8 @@ export class VoteComponent implements OnInit {
   SubmitVoteForm: FormGroup;
   addingVoter: Boolean;
   addingContestant: Boolean;
+  voters:Voter[];
+  contestants:Contestant[];
   constructor(){
     this.title = 'Voting Application';
     this.VoterName = "";
@@ -43,10 +45,16 @@ export class VoteComponent implements OnInit {
       });
     this.addingVoter = false;
     this.addingContestant = false;
+    this.voters = [{Id:1,Name:'Peppa', Voted:[], selected:false},{Id:2,Name:'Rumcajs', Voted: [], selected:false}];
+    this.contestants = [{Id:1,Name:'Johnny Bravo', Votes:1, selected:false},{Id:2,Name:'Pluto', Votes:1, selected:false}];
   }
 
   ngOnInit(): void{
     
+  }
+
+  ngOnDestroy(): void{
+
   }
   
   
@@ -70,8 +78,7 @@ export class VoteComponent implements OnInit {
   this.voters.push({Id:this.voters.length+1, Name:this.VoterName, Voted:[], selected:false});
   this.VoterName = "";
  }
-voters:Voter[] = [{Id:1,Name:'Peppa', Voted:[], selected:false},{Id:2,Name:'Rumcajs', Voted: [], selected:false}];
-contestants:Contestant[] = [{Id:1,Name:'Johnny Bravo', Votes:1, selected:false},{Id:2,Name:'Pluto', Votes:1, selected:false}];
+
 submitVote = () => {
   this.voters.map(ele => {
     if(ele.Id == this.SubmitVoteForm.value.voterControl?.Id && 
