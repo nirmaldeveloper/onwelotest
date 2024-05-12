@@ -35,6 +35,7 @@ export class VoteComponent implements OnInit, OnDestroy {
   addingContestant: Boolean;
   voters:Voter[];
   contestants:Contestant[];
+  
   constructor(){
     this.title = 'Voting Application';
     this.VoterName = "";
