@@ -31,7 +31,8 @@ export class VoteComponent implements OnInit {
   VoterName: string;
   CandidateName: string;
   SubmitVoteForm: FormGroup;
-
+  addingVoter: Boolean;
+  addingContestant: Boolean;
   constructor(){
     this.title = 'Voting Application';
     this.VoterName = "";
@@ -40,14 +41,15 @@ export class VoteComponent implements OnInit {
       voterControl: new FormControl<Voter | null>(null, Validators.required),
       contestantControl: new FormControl<Contestant | null>(null, Validators.required)
       });
+    this.addingVoter = false;
+    this.addingContestant = false;
   }
 
   ngOnInit(): void{
     
   }
   
-  addingVoter = false;
- addingContestant = false;
+  
  addContestant = ()=>{
   this.addingContestant = true;
  }
